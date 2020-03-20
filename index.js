@@ -2,7 +2,7 @@
 * @Author: UnsignedByte
 * @Date:   20:14:43, 19-Mar-2020
 * @Last Modified by:   UnsignedByte
-* @Last Modified time: 22:44:09, 19-Mar-2020
+* @Last Modified time: 23:00:16, 19-Mar-2020
 */
 
 const separators = ['!','\\.','\\?']; //Characters denoting the end of a line
@@ -14,7 +14,7 @@ function getLast(){ //retrieve last word
 	let ta = $('#text')
 	let text = ta.val().trimRight();
 	ta.val(text);
-	if (text.length == 0) return ['separator', '__start__'];
+	if (text.length == 0) return '__start__';
 	let regStr = new RegExp(String.raw`(?<=\s|^)[^\s]+$`, 'g');
 	text = text.match(regStr)[0];
 	regStr = new RegExp(String.raw`(([a-zA-Z\d${keptChars.join()}]|${specialWords.join('|')}|${separators.join('|')}|${inlinepunc.join('|')}|\s)+.)+`, 'g');
@@ -23,10 +23,13 @@ function getLast(){ //retrieve last word
     // console.log(regStr);
 
     let st = stype(text);
+    // console.log(text, st);
 
-    if (stype[2]||stype[1]){
+    if (st[2]){
     	return text;
-    }else if (stype[0]){
+   	}else if (st[1]){
+   		return text[text.length-1];
+   	}else if (st[0]){
     	return '__start__';
     }else{
     	text.replace(new RegExp(String.raw`[^a-zA-Z\d${keptChars.join()}]+`, 'g'), '');
@@ -35,6 +38,7 @@ function getLast(){ //retrieve last word
 }
 
 function getNext(last){
+	// console.log(last);
 	let ta = $('#text');
 	let text = ta.val();
 	if (!(last in data.wordmap)){
@@ -46,7 +50,7 @@ function getNext(last){
 	let st = stype(next);
 	// console.log(next, st);
 
-	if (st[0]||st[1]){
+	if ((st[0]||st[1]) && !st[2]){
 		text += next;
 	}else{
 		text += " "+next;

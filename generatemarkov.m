@@ -3,7 +3,7 @@ lines = cellfun(@split, splitlines(fileread('Plaintext-Data/compiledraw.txt')), 
 
 words = {'__start__'};
 wordmap = containers.Map('KeyType', 'char', 'ValueType', 'uint32');
-wordmap('__start__') = 1;
+wordmap('__start__') = 0;
 
 keyCount = 1;
 
@@ -13,7 +13,7 @@ for i = 1:length(lines)
         if ~isKey(wordmap, l{j})
             keyCount = keyCount + 1;
             words{keyCount} = l{j};
-            wordmap(l{j}) = keyCount;
+            wordmap(l{j}) = keyCount-1;
         end
     end
     
@@ -35,8 +35,8 @@ for i = 1:length(lines)
         else
             last = l{j-1};
         end
-        counts(wordmap(last)) = counts(wordmap(last))+1;
-        weights(wordmap(last),wordmap(l{j})) = weights(wordmap(last),wordmap(l{j}))+1;
+        counts(wordmap(last)+1) = counts(wordmap(last)+1)+1;
+        weights(wordmap(last)+1,wordmap(l{j})+1) = weights(wordmap(last)+1,wordmap(l{j})+1)+1;
     end
     
     if mod(i, 500) == 0
