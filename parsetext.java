@@ -2,7 +2,7 @@
 * @Author: UnsignedByte
 * @Date:   10:55:29, 19-Mar-2020
 * @Last Modified by:   UnsignedByte
-* @Last Modified time: 23:45:47, 19-Mar-2020
+* @Last Modified time: 23:52:19, 19-Mar-2020
 */
 
 import java.io.*;
@@ -12,7 +12,7 @@ public class parsetext {
 	public static final Character[] separators = {'!','.','?'}; //Characters denoting the end of a line
 	public static final String[] specialWords = {"mr.","ms.","mrs."}; //Words breaking this rule
 	public static final Character[] keptChars = {'\''}; //Characters to keep in words that aren't letters
-	public static final Character[] inlinepunc = {';',':','–','—',','}; //Punctuation that doesnt separate lines
+	public static final Character[] inlinepunc = {';',':',','}; //Punctuation that doesnt separate lines
 
 	public static boolean contains(Object[] a, Object b){
 		for(Object c : a){

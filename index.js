@@ -2,13 +2,13 @@
 * @Author: UnsignedByte
 * @Date:   20:14:43, 19-Mar-2020
 * @Last Modified by:   UnsignedByte
-* @Last Modified time: 23:20:59, 19-Mar-2020
+* @Last Modified time: 23:52:11, 19-Mar-2020
 */
 
 const separators = ['!','\\.','\\?']; //Characters denoting the end of a line
 const specialWords = ["mr\\.","ms\\.","mrs\\."]; //Words breaking this rule
 const keptChars = ['\'']; //Characters to keep in words that aren't letters
-const inlinepunc = [';',':','\u2014','\u2013',',']; //Punctuation that doesnt separate lines
+const inlinepunc = [';',':',',']; //Punctuation that doesnt separate lines
 
 function getLast(){ //retrieve last word
 	let ta = $('#text')
