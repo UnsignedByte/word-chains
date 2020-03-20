@@ -2,7 +2,7 @@
 * @Author: UnsignedByte
 * @Date:   10:55:29, 19-Mar-2020
 * @Last Modified by:   UnsignedByte
-* @Last Modified time: 23:05:54, 19-Mar-2020
+* @Last Modified time: 23:30:30, 19-Mar-2020
 */
 
 import java.io.*;
@@ -47,7 +47,7 @@ public class parsetext {
 	        				EOL = true;
         				}else if (i == s.length()-1 && contains(inlinepunc, c)){
         					lines.append(new char[] {' ', c});
-	        			}else if (('a' <= c && c <= 'z') || contains(keptChars, c)){
+	        			}else if (('a' <= c && c <= 'z') || ('0' <= c && c <= '9') || contains(keptChars, c)){
 		        			lines.append(Character.toLowerCase(c));
 	        			}
 	        		}
