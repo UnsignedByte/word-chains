@@ -2,7 +2,7 @@
 * @Author: UnsignedByte
 * @Date:   20:14:43, 19-Mar-2020
 * @Last Modified by:   UnsignedByte
-* @Last Modified time: 23:10:50, 19-Mar-2020
+* @Last Modified time: 23:20:59, 19-Mar-2020
 */
 
 const separators = ['!','\\.','\\?']; //Characters denoting the end of a line
@@ -56,6 +56,7 @@ function getNext(last){
 		text += " "+next;
 	}
 	ta.val(text.trim());
+	ta.scrollTop(ta[0].scrollHeight)
 }
 
 function fillSentence(){
