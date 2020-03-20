@@ -66,7 +66,7 @@ end
 toc;
 disp('Saving...')
 
-fid = fopen('output.json', 'w');
+fid = fopen('output.js', 'w');
 
 out = struct;
 out.words = words;
