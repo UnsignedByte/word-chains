@@ -1,0 +1,95 @@
+/*
+* @Author: UnsignedByte
+* @Date:   20:15:54, 19-Mar-2020
+* @Last Modified by:   UnsignedByte
+* @Last Modified time: 20:15:57, 19-Mar-2020
+*/
+
+:root {
+  --bg-color: white;
+  --header-bg-color: lightgrey;
+  --selected-color: grey;
+}
+html {
+  height:100%;
+  overflow: hidden;
+}
+
+body {
+  width:100%;
+  height:100%;
+  overflow: auto;
+  margin: 0;
+  background-color: var(--bg-color);
+}
+
+.box {
+  display: flex;
+  flex-flow: column;
+  height: 100%;
+}
+
+.box .row {
+  min-height: 0;
+  overflow: hidden;
+  margin:0;
+}
+
+.box .row.header {
+  height: 75px;
+  flex: 0 0 auto;
+  background-color: var(--header-bg-color);
+  /* The above is shorthand for:
+  flex-grow: 0,
+  flex-shrink: 1,
+  flex-basis: auto
+  */
+}
+
+.box .row.content {
+  flex: 1 1 auto;
+}
+
+.box .row.footer {
+  height: 50px;
+  flex: 0 0 auto;
+  padding-left:25px;
+  background-color: var(--header-bg-color);
+}
+
+.footer > * {
+  display: inline-block;
+  min-width:150px;
+  padding:7px;
+  height:100%;
+}
+
+input {
+  background:none;
+  border:none;
+  margin:none;
+  padding:none;
+  font-size:18px;
+  outline:none;
+}
+
+input:hover {
+  background-color:var(--selected-color);
+}
+
+.header div {
+  font-size: 24px;
+  padding: 10px;
+  margin: auto auto;
+  width: fit-content;
+}
+
+textarea {
+  width: 100%;
+  height: 100%;
+  resize:none;
+  border:none;
+  outline:none;
+  font-size:16px;
+  padding:10px;
+}
