@@ -2,7 +2,7 @@
 * @Author: UnsignedByte
 * @Date:   10:55:29, 19-Mar-2020
 * @Last Modified by:   UnsignedByte
-* @Last Modified time: 23:30:30, 19-Mar-2020
+* @Last Modified time: 23:45:47, 19-Mar-2020
 */
 
 import java.io.*;
@@ -42,10 +42,10 @@ public class parsetext {
         			boolean EOL = false;
 	        		for(int i = 0; i < s.length(); i++){
 	        			char c = s.charAt(i);
-        				if (i == s.length()-1 && contains(separators, c)){
+        				if (contains(separators, c)){
 	        				lines.append(new char[] {' ', c, '\n'});
 	        				EOL = true;
-        				}else if (i == s.length()-1 && contains(inlinepunc, c)){
+        				}else if (contains(inlinepunc, c)){
         					lines.append(new char[] {' ', c});
 	        			}else if (('a' <= c && c <= 'z') || ('0' <= c && c <= '9') || contains(keptChars, c)){
 		        			lines.append(Character.toLowerCase(c));
