@@ -2,11 +2,11 @@
 * @Author: UnsignedByte
 * @Date:   20:14:43, 19-Mar-2020
 * @Last Modified by:   UnsignedByte
-* @Last Modified time: 23:00:16, 19-Mar-2020
+* @Last Modified time: 23:10:50, 19-Mar-2020
 */
 
 const separators = ['!','\\.','\\?']; //Characters denoting the end of a line
-const specialWords = ["Mr\\.","Ms\\.","Mrs\\."]; //Words breaking this rule
+const specialWords = ["mr\\.","ms\\.","mrs\\."]; //Words breaking this rule
 const keptChars = ['\'']; //Characters to keep in words that aren't letters
 const inlinepunc = [';',':','\u2014','\u2013',',']; //Punctuation that doesnt separate lines
 
@@ -55,7 +55,20 @@ function getNext(last){
 	}else{
 		text += " "+next;
 	}
-	ta.val(text);
+	ta.val(text.trim());
+}
+
+function fillSentence(){
+	let last = getLast();
+	while (last === '__start__'){
+		getNext(last);
+		last = getLast();
+	}
+
+	while (last !== '__start__'){
+		getNext(last);
+		last = getLast();
+	}
 }
 
 //get whether word has string, separator, etc.

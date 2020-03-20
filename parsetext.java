@@ -2,7 +2,7 @@
 * @Author: UnsignedByte
 * @Date:   10:55:29, 19-Mar-2020
 * @Last Modified by:   UnsignedByte
-* @Last Modified time: 16:57:19, 19-Mar-2020
+* @Last Modified time: 23:05:54, 19-Mar-2020
 */
 
 import java.io.*;
@@ -10,7 +10,7 @@ import java.util.*;
 
 public class parsetext {
 	public static final Character[] separators = {'!','.','?'}; //Characters denoting the end of a line
-	public static final String[] specialWords = {"Mr.","Ms.","Mrs."}; //Words breaking this rule
+	public static final String[] specialWords = {"mr.","ms.","mrs."}; //Words breaking this rule
 	public static final Character[] keptChars = {'\''}; //Characters to keep in words that aren't letters
 	public static final Character[] inlinepunc = {';',':','–','—',','}; //Punctuation that doesnt separate lines
 
@@ -34,9 +34,9 @@ public class parsetext {
 
         	StringBuilder lines = new StringBuilder();
         	while(input.hasNext()){
-        		String s = input.next();
+        		String s = input.next().toLowerCase();
         		if (contains(specialWords, s)){
-        			lines.append(s.toLowerCase());
+        			lines.append(s);
         			lines.append(' ');
         		}else{
         			boolean EOL = false;
@@ -47,7 +47,7 @@ public class parsetext {
 	        				EOL = true;
         				}else if (i == s.length()-1 && contains(inlinepunc, c)){
         					lines.append(new char[] {' ', c});
-	        			}else if (('A' <= c && c <= 'Z') || ('a' <= c && c <= 'z') || contains(keptChars, c)){
+	        			}else if (('a' <= c && c <= 'z') || contains(keptChars, c)){
 		        			lines.append(Character.toLowerCase(c));
 	        			}
 	        		}

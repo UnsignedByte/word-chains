@@ -23,9 +23,9 @@
       <textarea id="text"></textarea>
     </div>
     <div class="row footer">
-      <input type="button" value="Clear">
+      <input type="button" value="Clear" onclick="$('#text').val('')">
       <input type="button" value="Next Word" onclick="getNext(getLast());">
-      <input type="button" value="Fill Sentence">
+      <input type="button" value="Fill Sentence" onclick="fillSentence();">
     </div>
   </div>
   <script src="output.json"></script>
