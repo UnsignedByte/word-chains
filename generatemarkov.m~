@@ -1,0 +1,1 @@
+lines = cellfun(@split, splitlines(fileread('Plaintext-Data/compiledraw.txt')), 'UniformOutput', false);
