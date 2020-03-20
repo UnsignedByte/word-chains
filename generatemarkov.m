@@ -17,7 +17,7 @@ for i = 1:length(lines)
         end
     end
     
-    if mod(i, 1000) == 0
+    if mod(i, 5000) == 0
         disp(['line ' num2str(i) ' initiated.']);
     end
 end
@@ -39,7 +39,7 @@ for i = 1:length(lines)
         weights(wordmap(last)+1,wordmap(l{j})+1) = weights(wordmap(last)+1,wordmap(l{j})+1)+1;
     end
     
-    if mod(i, 500) == 0
+    if mod(i, 1000) == 0
         disp(['line ' num2str(i) ' analyzed.']);
     end
 end
