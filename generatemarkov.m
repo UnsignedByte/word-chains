@@ -25,7 +25,7 @@ end
 toc;
 
 counts = zeros(1,keyCount);
-matrix = zeros(keyCount);
+weights = zeros(keyCount);
 
 for i = 1:length(lines)
     l = lines{i};
@@ -36,7 +36,7 @@ for i = 1:length(lines)
             last = l{j-1};
         end
         counts(wordmap(last)) = counts(wordmap(last))+1;
-        matrix(wordmap(last),wordmap(l{j})) = matrix(wordmap(last),wordmap(l{j}))+1;
+        weights(wordmap(last),wordmap(l{j})) = weights(wordmap(last),wordmap(l{j}))+1;
     end
     
     if mod(i, 500) == 0
@@ -44,11 +44,22 @@ for i = 1:length(lines)
     end
 end
 
+matrix = cell(1,keyCount);
+
 toc;
 for i = 1:keyCount
-    matrix(i,:) = matrix(i,:)/counts(i);
+    items = cell(1,counts(i));
+    k = 1;
+    for j = 1:counts(i)
+        if weights(i,k) == 0
+            k = k+1;
+        end
+        items{j} = k;
+        weights(i,k) = weights(i,k)-1;
+    end
+    matrix{i} = items;
     if mod(i, 1000) == 0
-        disp(['word ' words{i} ' finalized.']);
+        disp(['word ' num2str(i) ' finalized.']);
     end
 end
 
