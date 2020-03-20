@@ -73,5 +73,5 @@ out.words = words;
 out.wordmap = wordmap;
 out.matrix = matrix;
 
-fprintf(fid, jsonencode(out));
+fprintf(fid, ['data = ' jsonencode(out)]);
 fclose(fid);

@@ -2,13 +2,8 @@
 * @Author: UnsignedByte
 * @Date:   20:14:43, 19-Mar-2020
 * @Last Modified by:   UnsignedByte
-* @Last Modified time: 20:14:50, 19-Mar-2020
+* @Last Modified time: 20:21:05, 19-Mar-2020
 */
-
-
-// data = `$$datainput$$`;
-
-// data = JSON.parse(data);
 
 
 //allow typing tab for indent in textarea (taken from https://stackoverflow.com/questions/6637341/use-tab-to-indent-in-textarea)
