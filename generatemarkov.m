@@ -48,17 +48,17 @@ matrix = cell(1,keyCount);
 
 toc;
 for i = 1:keyCount
-    items = cell(1,counts(i));
+    items = zeros(1,counts(i));
     k = 1;
     for j = 1:counts(i)
-        if weights(i,k) == 0
+        while weights(i,k) == 0
             k = k+1;
         end
-        items{j} = k;
+        items(j) = k-1;
         weights(i,k) = weights(i,k)-1;
     end
     matrix{i} = items;
-    if mod(i, 1000) == 0
+    if mod(i, 10000) == 0
         disp(['word ' num2str(i) ' finalized.']);
     end
 end
@@ -73,5 +73,5 @@ out.words = words;
 out.wordmap = wordmap;
 out.matrix = matrix;
 
-fprintf(fid, ['data = ' jsonencode(out)]);
+fprintf(fid, ['var data = ' jsonencode(out)]);
 fclose(fid);
