@@ -2,7 +2,7 @@
 * @Author: UnsignedByte
 * @Date:   10:55:29, 19-Mar-2020
 * @Last Modified by:   UnsignedByte
-* @Last Modified time: 23:52:19, 19-Mar-2020
+* @Last Modified time: 16:25:29, 23-Mar-2020
 */
 
 import java.io.*;
@@ -28,8 +28,10 @@ public class parsetext {
         String fileOut = "Plaintext-Data/compiledraw.txt";
         output = new PrintWriter(new BufferedWriter(new FileWriter(fileOut)));
 
+        int lcount = 0;
     	for (File fileEntry : source.listFiles()) {
-        	input = new InputManager(new BufferedReader(new FileReader("Plaintext-Data/Sources/"+fileEntry.getName())));
+        	input = new InputManager(new BufferedReader(
+        		new InputStreamReader(new FileInputStream("Plaintext-Data/Sources/"+fileEntry.getName()), "UTF-8")));
 
 
         	StringBuilder lines = new StringBuilder();
@@ -45,6 +47,7 @@ public class parsetext {
         				if (contains(separators, c)){
 	        				lines.append(new char[] {' ', c, '\n'});
 	        				EOL = true;
+	        				lcount++;
         				}else if (contains(inlinepunc, c)){
         					lines.append(new char[] {' ', c});
 	        			}else if (('a' <= c && c <= 'z') || ('0' <= c && c <= '9') || contains(keptChars, c)){
@@ -54,6 +57,7 @@ public class parsetext {
 	        		if (!EOL) lines.append(' ');
         		}
         	}
+        	// System.out.println(lcount);
         	output.write(lines.toString());
 	    }
 
@@ -62,7 +66,7 @@ public class parsetext {
         output.flush();
     }
     public static class InputManager{
-        public StringTokenizer tokens = new StringTokenizer("");
+        public Queue<String> tokens = new LinkedList<>();
         public BufferedReader input;
 
         public InputManager(BufferedReader input){
@@ -70,13 +74,13 @@ public class parsetext {
         }
 
         private void updateLine() throws IOException{
-            while (!tokens.hasMoreTokens()){
+            while (tokens.isEmpty()){
                 String line = input.readLine();
-                while (line == null){
+                if (line == null){
                     tokens = null;
                     return;
                 }
-                tokens = new StringTokenizer(line);
+                tokens = new LinkedList(Arrays.asList(line.split("[\\s\\u2014\\u2013]+")));
             }
         }
 
@@ -87,25 +91,25 @@ public class parsetext {
 
         public String next() throws IOException{ //get next string
             this.updateLine();
-            return tokens.nextToken();
+            return tokens.poll();
         }
 
         public int nextInt() throws IOException{ //get next int
             this.updateLine();
-            return Integer.parseInt(tokens.nextToken());
+            return Integer.parseInt(tokens.poll());
         }
 
         public char nextChar() throws IOException{ //get next int
             this.updateLine();
-            return tokens.nextToken().charAt(0);
+            return tokens.poll().charAt(0);
         }
 
         public String nextLine() throws IOException{ //get all remaining tokens in line
             this.updateLine();
             StringBuilder sb = new StringBuilder();
-            sb.append(tokens.nextToken());
-            while(tokens.hasMoreTokens()){
-                sb.append(" ").append(tokens.nextToken());
+            sb.append(tokens.poll());
+            while(!tokens.isEmpty()){
+                sb.append(" ").append(tokens.poll());
             }
             return sb.toString();
         }
