@@ -10,6 +10,9 @@ keyCount = 1;
 for i = 1:length(lines)
     l = lines{i};
     for j = 1:length(l)
+        if isempty(l{j}) %ignore empty words
+            continue;
+        end
         if ~isKey(wordmap, l{j})
             keyCount = keyCount + 1;
             words{keyCount} = l{j};
@@ -25,26 +28,28 @@ end
 toc;
 
 counts = zeros(1,keyCount); % Measures number of times this word precedes another word
-usecounts = zeros(1, keyCount); %number of times this word follows another word
+% usecounts = zeros(1, keyCount); %number of times this word follows another word
 weights = zeros(keyCount);
 
 for i = 1:length(lines)
     l = lines{i};
+    last = '__start__';
     for j = 1:length(l)
-        if j==1
-            last = '__start__';
-        else
-            last = l{j-1};
+        if isempty(l{j}) %ignore empty words
+            continue;
         end
-        usecounts(wordmap(l{j})+1) = usecounts(wordmap(l{j})+1)+1;
+%         usecounts(wordmap(l{j})+1) = usecounts(wordmap(l{j})+1)+1;
         counts(wordmap(last)+1) = counts(wordmap(last)+1)+1;
         weights(wordmap(last)+1,wordmap(l{j})+1) = weights(wordmap(last)+1,wordmap(l{j})+1)+1;
+        last = l{j};
     end
     
     % map punctuation to __start__
-    usecounts(wordmap('__start__')+1) = usecounts(wordmap('__start__')+1)+1;
-    counts(wordmap(l{j})+1) = counts(wordmap(l{j})+1)+1;
-    weights(wordmap(l{j})+1,wordmap('__start__')+1) = weights(wordmap(l{j})+1,wordmap('__start__')+1)+1;
+%     usecounts(wordmap('__start__')+1) = usecounts(wordmap('__start__')+1)+1;
+    if ~isempty(l{j}) %ignore empty words
+        counts(wordmap(l{j})+1) = counts(wordmap(l{j})+1)+1;
+        weights(wordmap(l{j})+1,wordmap('__start__')+1) = weights(wordmap(l{j})+1,wordmap('__start__')+1)+1;
+    end
     
     if mod(i, 1000) == 0
         disp(['line ' num2str(i) ' analyzed.']);
@@ -105,7 +110,38 @@ for i = 1:keyCount
 end
 
 toc;
-disp('Saving...')
+disp('Generating markov chain transition matrix');
+[~,inds] = maxk(usecounts,2000); %take most used k words
+markovmat = zeros(length(inds)+1);
+markovmat(1:end-1, 1:end-1) = weights(inds,inds);
+markovmat(end,1:end-1) = counts(inds)-sum(markovmat(1:end-1,1:end-1),1); %from other to top 100
+markovmat(1:end-1,end) = counts(inds)'-sum(markovmat(1:end-1,1:end-1),2); %from top 100 to other
+rsums = [counts(inds) sum(counts(setdiff(1:end,inds)))];
+markovmat(end,end) = rsums(end)-sum(markovmat(1:end-1,end)); %from other to other
+% markovmat = diag(1./sum(markovmat,2))*markovmat;
+markovmat = markovmat*diag(1./rsums);
+
+toc;
+disp('Naming Nodes');
+nodenames = cell(size(markovmat,1),1);
+nodenames(1:end-1) = arrayfun(@(x) words(x), inds); %get names of top 10k
+nodenames{end} = 'Other Words';
+nodenames{strcmp('__start__', nodenames)} = 'Sentence Start'; %replace __start__ with appropriate name
+toc;
+disp('Generating named cell');
+transitionmatrix = cell(length(inds)+2);
+transitionmatrix(2:end,2:end) = num2cell(markovmat);
+transitionmatrix(2:end,1) = nodenames;
+transitionmatrix(1,2:end) = nodenames;
+% transitionmatrix = array2table(markovmat, 'VariableNames', nodenames, 'RowNames', nodenames);
+% convert to named table
+
+toc;
+disp('Saving matrix');
+writecell(transitionmatrix, 'transitionmatrix.csv')
+
+toc;
+disp('Saving json')
 
 fid = fopen('output.js', 'w');
 

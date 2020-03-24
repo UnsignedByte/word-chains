@@ -2,7 +2,7 @@
 * @Author: UnsignedByte
 * @Date:   10:55:29, 19-Mar-2020
 * @Last Modified by:   UnsignedByte
-* @Last Modified time: 16:25:29, 23-Mar-2020
+* @Last Modified time: 11:38:19, 24-Mar-2020
 */
 
 import java.io.*;
@@ -28,7 +28,6 @@ public class parsetext {
         String fileOut = "Plaintext-Data/compiledraw.txt";
         output = new PrintWriter(new BufferedWriter(new FileWriter(fileOut)));
 
-        int lcount = 0;
     	for (File fileEntry : source.listFiles()) {
         	input = new InputManager(new BufferedReader(
         		new InputStreamReader(new FileInputStream("Plaintext-Data/Sources/"+fileEntry.getName()), "UTF-8")));
@@ -47,7 +46,6 @@ public class parsetext {
         				if (contains(separators, c)){
 	        				lines.append(new char[] {' ', c, '\n'});
 	        				EOL = true;
-	        				lcount++;
         				}else if (contains(inlinepunc, c)){
         					lines.append(new char[] {' ', c});
 	        			}else if (('a' <= c && c <= 'z') || ('0' <= c && c <= '9') || contains(keptChars, c)){
