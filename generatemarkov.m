@@ -119,7 +119,7 @@ markovmat(1:end-1,end) = counts(inds)'-sum(markovmat(1:end-1,1:end-1),2); %from 
 rsums = [counts(inds) sum(counts(setdiff(1:end,inds)))];
 markovmat(end,end) = rsums(end)-sum(markovmat(1:end-1,end)); %from other to other
 % markovmat = diag(1./sum(markovmat,2))*markovmat;
-markovmat = markovmat*diag(1./rsums);
+markovmat = diag(1./rsums)*markovmat;
 
 toc;
 disp('Naming Nodes');
