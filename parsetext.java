@@ -2,7 +2,7 @@
 * @Author: UnsignedByte
 * @Date:   10:55:29, 19-Mar-2020
 * @Last Modified by:   UnsignedByte
-* @Last Modified time: 11:38:19, 24-Mar-2020
+* @Last Modified time: 12:19:48, 24-Mar-2020
 */
 
 import java.io.*;
@@ -28,7 +28,13 @@ public class parsetext {
         String fileOut = "Plaintext-Data/compiledraw.txt";
         output = new PrintWriter(new BufferedWriter(new FileWriter(fileOut)));
 
-    	for (File fileEntry : source.listFiles()) {
+    	for (File fileEntry : source.listFiles(new FilenameFilter() {
+			        @Override
+			        public boolean accept(File dir, String name) {
+			            return !name.equals(".DS_Store");
+			        }
+			    })
+    		) {
         	input = new InputManager(new BufferedReader(
         		new InputStreamReader(new FileInputStream("Plaintext-Data/Sources/"+fileEntry.getName()), "UTF-8")));
 

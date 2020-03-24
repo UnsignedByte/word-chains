@@ -111,7 +111,7 @@ end
 
 toc;
 disp('Generating markov chain transition matrix');
-[~,inds] = maxk(usecounts,2000); %take most used k words
+[~,inds] = maxk(counts,min(2000,keyCount)); %take most used k words
 markovmat = zeros(length(inds)+1);
 markovmat(1:end-1, 1:end-1) = weights(inds,inds);
 markovmat(end,1:end-1) = counts(inds)-sum(markovmat(1:end-1,1:end-1),1); %from other to top 100
